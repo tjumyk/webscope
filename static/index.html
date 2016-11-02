@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="rootController" ng-cloak>
+<head>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+    <title>WebScope</title>
+    <link rel="shortcut icon" href="/static/image/logo-64.png" type="image/png">
+    <link rel="stylesheet" href="/static/vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/app.css">
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/js/html5shiv.min.js"></script>
+    <script src="/static/vendor/js/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="/static/vendor/js/jquery.min.js"></script>
+    <script src="/static/vendor/js/bootstrap.min.js"></script>
+    <script src="/static/vendor/js/angular.min.js"></script>
+    <script src="/static/vendor/js/moment.min.js"></script>
+
+    <script src="/static/js/app.js"></script>
+</head>
+<body>
+<div class="heading">
+    <img src="/static/image/logo-128.png" alt="WebScope" class="logo" ng-class="{ loading: loading }">
+</div>
+<div class="container">
+    <div class="server-container" ng-repeat="server in servers">
+        <h1 class="page-header">{{server.host}}</h1>
+        <div class="row">
+            <div class="col-sm-4" ng-repeat="site in server.sites">
+                <div class="panel panel-site" ng-class="getPanelClass(site)">
+                    <div class="panel-heading">{{site.title}}<span ng-hide="site.title" class="text-muted">(No title)</span></div>
+                    <div class="panel-body">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <div class="embed-responsive-item">
+                                <a ng-href="{{site.url}}">
+                                    <img ng-src="{{site.screenshot}}" ng-attr-alt="{{site.title}}" class="img-responsive">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer"><div class="text-center"><a ng-href="{{site.url}}">{{site.url}}</a></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-hide="loading" class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <p><button class="btn btn-primary btn-block btn-lg btn-scan" ng-click="rescan()" ng-disabled="scanning"><span class="glyphicon glyphicon-search"></span> Rescan<span ng-show="scanning">ing...</span></button></p>
+            <p class="text-center">Last Scan: <span ng-show="last_scan">{{last_scan}}</span><span class="text-muted" ng-hide="last_scan">(not scanned yet)</span></p>
+        </div>
+    </div>
+    <div>
+        <p class="text-center">WebScope &copy; Kelvin Miao, 2016</p>
+    </div>
+</div>
+</body>
+</html>

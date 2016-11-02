@@ -1,0 +1,24 @@
+.heading{
+  padding: 30px 0 30px;
+  text-align: center;
+}
+.panel-site{
+  .panel-body{
+    padding: 0;
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: scale(1,1);
+  }
+  50% {
+    transform: scale(0.7,0.7);
+  }
+  100% {
+    transform: scale(1,1);
+  }
+}
+.logo.loading{
+  animation: loading 1s infinite ease-in-out;
+}

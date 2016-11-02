@@ -1,0 +1,47 @@
+{
+  "app":{
+    "host": "0.0.0.0",
+    "port": 8000,
+    "debug": false,
+    "threaded": true
+  },
+  "phantomjs": {
+    "path": "/home/kelvin/phantomjs/bin/phantomjs",
+    "screen": {
+      "width": 1920,
+      "height": 1080
+    }
+  },
+  "timeout":{
+    "socket_check": 0.1,
+    "phantomjs_load": 6,
+    "request_head": 3
+  },
+  "scan": {
+    "servers": [
+      {
+        "host": "localhost",
+        "port_ranges": [
+          {
+            "low": 80,
+            "high": 80
+          },
+          {
+            "low": 443,
+            "high": 443
+          },
+          {
+            "low": 8001,
+            "high": 8999
+          }
+        ]
+      }
+    ]
+  },
+  "users": [
+    {
+      "id": "admin",
+      "password": "passwd"
+    }
+  ]
+}
