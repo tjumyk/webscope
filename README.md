@@ -4,7 +4,7 @@
 
 This is a tiny web server that has the following capabilities:
   
-1. Scan given port ranges on given host address to detect all the web servers 
+1. Scan given port ranges on given host addresses to detect all the web servers 
 2. Take a screenshot of the homepage of each website
 3. Show the list of all these servers along with their screenshots
 4. Provide a basic HTTP authentication to secure itself
