@@ -9,7 +9,7 @@
     <title>WebScope</title>
     <link rel="shortcut icon" href="/static/image/logo-64.png" type="image/png">
     <link rel="stylesheet" href="/static/vendor/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/app.css">
+    <link rel="stylesheet" href="/static/css/app.css?v=17030801">
 
     <!--[if lt IE 9]>
     <script src="/static/vendor/js/html5shiv.min.js"></script>
@@ -33,10 +33,15 @@
         <div class="row">
             <div class="col-sm-4" ng-repeat="site in server.sites">
                 <div class="panel panel-site" ng-class="getPanelClass(site)">
-                    <div class="panel-heading">{{site.title}}<span ng-hide="site.title" class="text-muted">(No title)</span></div>
+                    <div class="panel-heading"><img ng-src="{{site.icon}}" ng-show="site.icon" class="site-icon mini"> {{site.title}}<span ng-hide="site.title" class="text-muted">(No title)</span></div>
                     <div class="panel-body">
                         <div class="embed-responsive embed-responsive-16by9">
                             <div class="embed-responsive-item">
+                                <a class="icon-overlay vertical-center" ng-href="{{site.url}}" ng-show="site.icon">
+                                    <div class="inner text-center">
+                                        <img ng-src="{{site.icon}}" ng-show="site.icon" class="site-icon">
+                                    </div>
+                                </a>
                                 <a ng-href="{{site.url}}">
                                     <img ng-src="{{site.screenshot}}" ng-attr-alt="{{site.title}}" class="img-responsive">
                                 </a>
@@ -50,7 +55,8 @@
     </div>
     <div ng-hide="loading" class="row">
         <div class="col-sm-4 col-sm-offset-4">
-            <p><button class="btn btn-primary btn-block btn-lg btn-scan" ng-click="rescan()" ng-disabled="scanning"><span class="glyphicon glyphicon-search"></span> Rescan<span ng-show="scanning">ing...</span></button></p>
+            <p><button class="btn btn-primary btn-block btn-lg btn-scan" ng-click="rescan()" ng-disabled="scanning"><span class="glyphicon glyphicon-search" ng-hide="scanning"></span><img
+                    src="/static/image/loading-btn.svg" class="loading-img" ng-show="scanning"> Rescan<span ng-show="scanning">ing... </span></button></p>
             <p class="text-center">Last Scan: <span ng-show="last_scan">{{last_scan}}</span><span class="text-muted" ng-hide="last_scan">(not scanned yet)</span></p>
         </div>
     </div>

@@ -78,8 +78,11 @@ def take_screenshot(url, file_path):
         driver.get(url)
         driver.get_screenshot_as_file(file_path)
         title = driver.execute_script('return document.title;')
+        icon = driver.execute_script(
+            "var l = document.querySelector('link[rel=\"shortcut icon\"]');if(!l){return null;}else{return l.href;}")
         return {
-            "title": title
+            "title": title,
+            "icon": icon
         }
     except Exception as e:
         raise e
@@ -100,11 +103,11 @@ def scan(host, port):
 
 def worker(targets):
     while not targets.empty():
-        host, port = targets.get()
+        protocol, host, port = targets.get()
         try:
             if scan(host, port):
                 logging.info("[Scan] %s:%d" % (host, port))
-                url = "http://%s:%s" % (host, str(port))
+                url = "%s://%s:%s" % (protocol, host, str(port))
                 screenshot = "%s/%s-%s.png" % (screenshot_folder, host, str(port))
                 data = take_screenshot(url, screenshot)
                 # since webdriver does not provide status code, we have to make another request manually
@@ -116,6 +119,7 @@ def worker(targets):
                     "url": url,
                     "screenshot": "/" + screenshot,
                     "title": data['title'],
+                    "icon": data['icon'],
                     "status_code": status_code
                 })
         except Exception as e:
@@ -140,10 +144,13 @@ def scan_all():
     for server in config['scan']['servers']:
         host = server['host']
         for port_range in server['port_ranges']:
+            protocol = 'http'
+            if 'https' in port_range and port_range['https'] is True:
+                protocol = 'https'
             port = port_range['low']
             stop = port_range['high']
             while port <= stop:
-                targets.put((host, port))
+                targets.put((protocol, host, port))
                 port += 1
     workers = multiprocessing.cpu_count()
     with ThreadPoolExecutor(max_workers=workers) as executor:
